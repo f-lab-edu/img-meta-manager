@@ -1,0 +1,12 @@
+# 데이터베이스
+
+spring:
+  datasource:
+    url: "jdbc:postgresql://localhost:5432/imageTagManagementDatabase"
+    username: "appuser"
+    password:
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
