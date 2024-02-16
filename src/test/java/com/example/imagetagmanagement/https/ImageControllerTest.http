@@ -1,2 +1,33 @@
 ###
-GET http://localhost:8080/image/143d4952-e70a-4f53-ab66-cd1c212a59bb
+GET http://localhost:8080/image/{{uuid}}
+
+
+
+
+
+###
+POST http://localhost:8080/image
+Content-Type: multipart/form-data; boundary=Boundary
+
+--Boundary
+Content-Disposition: form-data; name="file"; filename="example.jpg"
+Content-Type: image/jpeg
+
+@./example.jpg
+
+--Boundary
+Content-Disposition: form-data; name="imageBody"
+Content-Type: application/json
+
+{
+  "name": "example-image",
+  "fileName": "example.jpg",
+  "fileLocation": "/path/to/example.jpg",
+  "metadata": {
+    "key1": "value1",
+    "key2": "value2",
+    "key3": "value3"
+  }
+}
+
+--Boundary
