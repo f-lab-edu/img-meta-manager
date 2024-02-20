@@ -2,12 +2,9 @@ package com.example.imagetagmanagement.controller;
 
 import com.example.imagetagmanagement.model.Image;
 import com.example.imagetagmanagement.service.ImageServices;
-import jdk.jfr.ContentType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 

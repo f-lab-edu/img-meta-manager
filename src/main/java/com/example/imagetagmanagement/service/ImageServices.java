@@ -1,21 +1,89 @@
 package com.example.imagetagmanagement.service;
 
 import com.example.imagetagmanagement.model.Image;
+import com.example.imagetagmanagement.repository.ImageRepository;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
-public interface ImageServices {
-    // 이미지 저장
-    Optional<Image> registerImage(MultipartFile multipartFile, Image image);
-    // 이미지 물리파일 저장
-    Image importImageAndUpadate(MultipartFile multipartFile, Image inputImage)  throws IOException;
-    // 이미지 조회 by id
-    Optional<Image> retrieveImageById(Image reqImageData);
+@Service
+@Slf4j
+public class ImageServices {
 
-    Optional<Image> updateImageById(Image reqImageData);
+    @Autowired
+    private ImageRepository imageRepository;
 
-    Optional<Image> removeImageById(Image reqImageData);
+    @Value("${upload.directory}")
+    private String uploadDirectory;
 
+
+    public Optional<Image> registerImage(MultipartFile multipartFile, Image image) {
+        Image resultImage;
+        // validation
+        resultImage = imageRepository.save(image);
+
+        try {
+            resultImage = importImageAndUpadate(multipartFile, resultImage);
+
+            imageRepository.save(resultImage);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return Optional.of(resultImage);
+    }
+
+
+
+    public Image importImageAndUpadate(MultipartFile multipartFile, Image inputImage) throws IOException {
+        Path uploadFilePath = Paths.get(uploadDirectory).toAbsolutePath().normalize();
+        log.info(uploadFilePath.toString());
+        if (!uploadFilePath.toFile().exists()) {
+            uploadFilePath.toFile().mkdirs();
+        }
+
+        String importedLocation = uploadFilePath + multipartFile.getName();
+        log.info(importedLocation);
+        File importFile = new File(importedLocation);
+
+        multipartFile.transferTo(importFile);
+
+        Map<String, String> inputMetadata = new HashMap<String, String>();
+        inputMetadata.put("file-size", multipartFile.getSize() + "");
+        // TODO : 기타 파일에서 확인할수 있는 메타 확인.
+
+        inputImage.setFileLocation(importedLocation);
+        inputImage.setMetadata(inputMetadata);
+
+        return inputImage;
+
+    }
+
+
+    public Optional<Image> retrieveImageById(Image reqImageData) {
+
+        return imageRepository.findById(reqImageData.getUuid());
+    }
+
+
+    public Optional<Image> updateImageById(Image reqImageData) {
+
+        return Optional.of(imageRepository.save(reqImageData));
+    }
+
+
+    public Optional<Image> removeImageById(Image reqImageData) {
+        imageRepository.deleteById(reqImageData.getUuid());
+        return Optional.empty();
+    }
 }
