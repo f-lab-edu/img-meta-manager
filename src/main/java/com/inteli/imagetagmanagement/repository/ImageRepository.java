@@ -1,6 +1,6 @@
-package com.example.imagetagmanagement.repository;
+package com.inteli.imagetagmanagement.repository;
 
-import com.example.imagetagmanagement.model.Image;
+import com.inteli.imagetagmanagement.model.Image;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

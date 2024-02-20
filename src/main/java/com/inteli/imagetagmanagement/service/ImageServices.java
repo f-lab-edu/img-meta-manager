@@ -1,7 +1,7 @@
-package com.example.imagetagmanagement.service;
+package com.inteli.imagetagmanagement.service;
 
-import com.example.imagetagmanagement.model.Image;
-import com.example.imagetagmanagement.repository.ImageRepository;
+import com.inteli.imagetagmanagement.model.Image;
+import com.inteli.imagetagmanagement.repository.ImageRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -43,13 +43,13 @@ public class ImageServices {
 
     public Image importImageAndUpadate(MultipartFile multipartFile, Image inputImage) throws IOException {
         Path uploadFilePath = Paths.get(uploadDirectory).toAbsolutePath().normalize();
-        log.info(uploadFilePath.toString());
+        log.debug(" ## Upload File Path : {}", uploadFilePath.toString());
         if (!uploadFilePath.toFile().exists()) {
             uploadFilePath.toFile().mkdirs();
         }
 
         String importedLocation = uploadFilePath + multipartFile.getName();
-        log.info(importedLocation);
+        log.debug(" ## file import location : {}", importedLocation);
         File importFile = new File(importedLocation);
 
         multipartFile.transferTo(importFile);

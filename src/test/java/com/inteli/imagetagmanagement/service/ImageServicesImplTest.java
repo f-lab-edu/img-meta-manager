@@ -1,9 +1,8 @@
-package com.example.imagetagmanagement.service;
+package com.inteli.imagetagmanagement.service;
 
-import com.example.imagetagmanagement.model.Image;
-import com.example.imagetagmanagement.repository.ImageRepository;
+import com.inteli.imagetagmanagement.model.Image;
+import com.inteli.imagetagmanagement.repository.ImageRepository;
 import jakarta.transaction.Transactional;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

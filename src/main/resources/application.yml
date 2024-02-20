@@ -18,3 +18,7 @@ spring:
 
 upload:
   directory : "~/project/uploadRepository"
+
+logging:
+  level:
+    com.example.MyClass: DEBUG

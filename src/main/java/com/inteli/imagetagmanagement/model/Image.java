@@ -1,4 +1,4 @@
-package com.example.imagetagmanagement.model;
+package com.inteli.imagetagmanagement.model;
 
 import jakarta.persistence.*;
 import lombok.*;
