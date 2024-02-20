@@ -27,22 +27,18 @@ public class ImageServices {
     private String uploadDirectory;
 
 
-    public Optional<Image> registerImage(MultipartFile multipartFile, Image image) {
+    public Optional<Image> registerImage(MultipartFile multipartFile, Image image) throws IOException {
         Image resultImage;
         // validation
         resultImage = imageRepository.save(image);
 
-        try {
-            resultImage = importImageAndUpadate(multipartFile, resultImage);
+        resultImage = importImageAndUpadate(multipartFile, resultImage);
 
-            imageRepository.save(resultImage);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        imageRepository.save(resultImage);
+
 
         return Optional.of(resultImage);
     }
-
 
 
     public Image importImageAndUpadate(MultipartFile multipartFile, Image inputImage) throws IOException {
