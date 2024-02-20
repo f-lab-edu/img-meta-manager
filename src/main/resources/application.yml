@@ -21,4 +21,4 @@ upload:
 
 logging:
   level:
-    com.example.MyClass: DEBUG
+    com.intelligent.imageTagManagement : DEBUG

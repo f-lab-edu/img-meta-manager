@@ -1,7 +1,7 @@
-package com.inteli.imagetagmanagement.service;
+package com.intelligent.imageTagManagement.service;
 
-import com.inteli.imagetagmanagement.model.Image;
-import com.inteli.imagetagmanagement.repository.ImageRepository;
+import com.intelligent.imageTagManagement.model.ImageData;
+import com.intelligent.imageTagManagement.repository.ImageRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -27,21 +27,21 @@ public class ImageServices {
     private String uploadDirectory;
 
 
-    public Optional<Image> registerImage(MultipartFile multipartFile, Image image) throws IOException {
-        Image resultImage;
+    public Optional<ImageData> registerImage(MultipartFile multipartFile, ImageData imageData) throws IOException {
+        ImageData resultImageData;
         // validation
-        resultImage = imageRepository.save(image);
+        resultImageData = imageRepository.save(imageData);
 
-        resultImage = importImageAndUpadate(multipartFile, resultImage);
+        resultImageData = importImageAndUpadate(multipartFile, resultImageData);
 
-        imageRepository.save(resultImage);
+        imageRepository.save(resultImageData);
 
 
-        return Optional.of(resultImage);
+        return Optional.of(resultImageData);
     }
 
 
-    public Image importImageAndUpadate(MultipartFile multipartFile, Image inputImage) throws IOException {
+    public ImageData importImageAndUpadate(MultipartFile multipartFile, ImageData inputImageData) throws IOException {
         Path uploadFilePath = Paths.get(uploadDirectory).toAbsolutePath().normalize();
         log.debug(" ## Upload File Path : {}", uploadFilePath.toString());
         if (!uploadFilePath.toFile().exists()) {
@@ -58,28 +58,28 @@ public class ImageServices {
         inputMetadata.put("file-size", multipartFile.getSize() + "");
         // TODO : 기타 파일에서 확인할수 있는 메타 확인.
 
-        inputImage.setFileLocation(importedLocation);
-        inputImage.setMetadata(inputMetadata);
+        inputImageData.setFileLocation(importedLocation);
+        inputImageData.setMetadata(inputMetadata);
 
-        return inputImage;
+        return inputImageData;
 
     }
 
 
-    public Optional<Image> retrieveImageById(Image reqImageData) {
+    public Optional<ImageData> retrieveImageById(ImageData reqImageDataData) {
 
-        return imageRepository.findById(reqImageData.getUuid());
+        return imageRepository.findById(reqImageDataData.getUuid());
     }
 
 
-    public Optional<Image> updateImageById(Image reqImageData) {
+    public Optional<ImageData> updateImageById(ImageData reqImageDataData) {
 
-        return Optional.of(imageRepository.save(reqImageData));
+        return Optional.of(imageRepository.save(reqImageDataData));
     }
 
 
-    public Optional<Image> removeImageById(Image reqImageData) {
-        imageRepository.deleteById(reqImageData.getUuid());
+    public Optional<ImageData> removeImageById(ImageData reqImageDataData) {
+        imageRepository.deleteById(reqImageDataData.getUuid());
         return Optional.empty();
     }
 }

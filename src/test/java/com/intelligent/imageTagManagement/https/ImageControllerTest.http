@@ -1,26 +1,26 @@
 ###
-GET http://localhost:8080/image/{{uuid}}
+GET http://localhost:8080/imageData/{{uuid}}
 
 
 
 
 
 ###
-POST http://localhost:8080/image
+POST http://localhost:8080/imageData
 Content-Type: multipart/form-data; boundary=Boundary
 
 --Boundary
 Content-Disposition: form-data; name="file"; filename="example.jpg"
-Content-Type: image/jpeg
+Content-Type: imageData/jpeg
 
 @./example.jpg
 
 --Boundary
-Content-Disposition: form-data; name="imageBody"
+Content-Disposition: form-data; name="imageDataBody"
 Content-Type: application/json
 
 {
-  "name": "example-image",
+  "name": "example-imageData",
   "fileName": "example.jpg",
   "fileLocation": "/path/to/example.jpg",
   "metadata": {

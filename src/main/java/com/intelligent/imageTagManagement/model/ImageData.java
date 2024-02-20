@@ -1,4 +1,4 @@
-package com.inteli.imagetagmanagement.model;
+package com.intelligent.imageTagManagement.model;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -12,7 +12,7 @@ import java.util.Map;
 @AllArgsConstructor
 @Builder
 @Entity
-public class Image {
+public class ImageData {
 
     @Id
     @UuidGenerator

@@ -1,7 +1,7 @@
-package com.inteli.imagetagmanagement.service;
+package com.intelligent.imageTagManagement.service;
 
-import com.inteli.imagetagmanagement.model.Image;
-import com.inteli.imagetagmanagement.repository.ImageRepository;
+import com.intelligent.imageTagManagement.model.ImageData;
+import com.intelligent.imageTagManagement.repository.ImageRepository;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -17,7 +17,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
 @Transactional
-public class ImageServicesImplTest {
+public class ImageDataServicesImplTest {
 
     @Autowired
     private ImageRepository imageRepository;
@@ -32,10 +32,10 @@ public class ImageServicesImplTest {
     @Test
     @DisplayName("이미지 저장 및 조회")
     void 이미지저장및조회() {
-        Image image = Image.builder().name("이미지").fileName("이미지.jpg").fileLocation("/이미지.jpg").metadata(샘플메타데이터()).build();
-        imageRepository.save(image);
+        ImageData imageData = ImageData.builder().name("이미지").fileName("이미지.jpg").fileLocation("/이미지.jpg").metadata(샘플메타데이터()).build();
+        imageRepository.save(imageData);
 
-        Optional<Image> retrievedImage = imageRepository.findById(image.getUuid());
+        Optional<ImageData> retrievedImage = imageRepository.findById(imageData.getUuid());
 
         retrievedImage.ifPresent(value -> {
             assertThat(value.getName()).isEqualTo("이미지");
