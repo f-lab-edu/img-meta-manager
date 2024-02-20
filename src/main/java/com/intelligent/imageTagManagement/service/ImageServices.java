@@ -27,21 +27,18 @@ public class ImageServices {
     private String uploadDirectory;
 
 
-    public Optional<ImageData> registerImage(MultipartFile multipartFile, ImageData imageData) throws IOException {
+    public ImageData registerImage(MultipartFile multipartFile, ImageData imageData) throws IOException {
         ImageData resultImageData;
         // validation
         resultImageData = imageRepository.save(imageData);
 
-        resultImageData = importImageAndUpadate(multipartFile, resultImageData);
+        resultImageData = importImageAndUpdate(multipartFile, resultImageData);
 
-        imageRepository.save(resultImageData);
-
-
-        return Optional.of(resultImageData);
+        return imageRepository.save(resultImageData);
     }
 
 
-    public ImageData importImageAndUpadate(MultipartFile multipartFile, ImageData inputImageData) throws IOException {
+    public ImageData importImageAndUpdate(MultipartFile multipartFile, ImageData inputImageData) throws IOException {
         Path uploadFilePath = Paths.get(uploadDirectory).toAbsolutePath().normalize();
         log.debug(" ## Upload File Path : {}", uploadFilePath.toString());
         if (!uploadFilePath.toFile().exists()) {
@@ -72,14 +69,13 @@ public class ImageServices {
     }
 
 
-    public Optional<ImageData> updateImageById(ImageData reqImageDataData) {
+    public ImageData updateImageById(ImageData reqImageDataData) {
 
-        return Optional.of(imageRepository.save(reqImageDataData));
+        return imageRepository.save(reqImageDataData);
     }
 
 
-    public Optional<ImageData> removeImageById(ImageData reqImageDataData) {
+    public void removeImageById(ImageData reqImageDataData) {
         imageRepository.deleteById(reqImageDataData.getUuid());
-        return Optional.empty();
     }
 }

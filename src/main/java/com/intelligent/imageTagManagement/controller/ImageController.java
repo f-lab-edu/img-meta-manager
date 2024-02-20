@@ -26,23 +26,19 @@ public class ImageController {
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<ImageData> registerImage(@RequestPart("file") MultipartFile file, @RequestPart("imageBody") ImageData imageDataBody) throws IOException {
-        return imageServices.registerImage(file, imageDataBody)
-                .map(imageData -> ResponseEntity.ok().body(imageData))
-                .orElse(ResponseEntity.badRequest().build());
+        return ResponseEntity.ok().body(imageServices.registerImage(file, imageDataBody));
     }
 
     @DeleteMapping
     public ResponseEntity<ImageData> removeImage(@RequestBody ImageData reqImageDataData) {
-        return imageServices.removeImageById(reqImageDataData)
-                .map(imageData -> ResponseEntity.ok().body(imageData))
-                .orElse(ResponseEntity.badRequest().build());
+        imageServices.removeImageById(reqImageDataData);
+        return ResponseEntity.ok().build();
     }
 
     @PatchMapping
     public ResponseEntity<ImageData> updateImage(@RequestBody ImageData reqImageDataData) {
-        return imageServices.updateImageById(reqImageDataData)
-                .map(imageData -> ResponseEntity.ok().body(imageData))
-                .orElse(ResponseEntity.badRequest().build());
+        return ResponseEntity.ok().body(imageServices.updateImageById(reqImageDataData));
+
     }
 
 }
