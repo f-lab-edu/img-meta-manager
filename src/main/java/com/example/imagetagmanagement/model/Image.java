@@ -2,8 +2,6 @@ package com.example.imagetagmanagement.model;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.Type;
 import org.hibernate.annotations.UuidGenerator;
 
 import java.util.Map;
@@ -34,7 +32,6 @@ public class Image {
     @MapKeyColumn(name = "metadata_key")
     @Column(name = "metadata_value")
     private Map<String, String> metadata;
-
 
 
 }
