@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.UuidGenerator;
 
-import java.util.Map;
+import java.util.List;
 
 @Getter
 @Setter
@@ -27,11 +27,12 @@ public class ImageData {
     @Column(nullable = true)
     private String fileLocation;
 
-    @ElementCollection
-    @CollectionTable(name = "metadatas", joinColumns = @JoinColumn(name = "image_id"))
-    @MapKeyColumn(name = "metadata_key")
-    @Column(name = "metadata_value")
-    private Map<String, String> metadata;
+//    @CreatedDate
+//    @Column(nullable = false, updatable = false)
+//    private LocalDateTime uploadDate;
+
+    @OneToMany(mappedBy = "imageData", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ImageMetaData> metadata;
 
 
 }
