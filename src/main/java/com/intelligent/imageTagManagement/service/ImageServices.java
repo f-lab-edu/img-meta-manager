@@ -1,7 +1,9 @@
 package com.intelligent.imageTagManagement.service;
 
 import com.intelligent.imageTagManagement.model.ImageData;
+import com.intelligent.imageTagManagement.model.ImageMetaData;
 import com.intelligent.imageTagManagement.repository.ImageRepository;
+import com.intelligent.imageTagManagement.repository.MetadataRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -13,6 +15,7 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -22,6 +25,9 @@ public class ImageServices {
 
     @Autowired
     private ImageRepository imageRepository;
+
+    @Autowired
+    private MetadataRepository metadataRepository;
 
     @Value("${upload.directory}")
     private String uploadDirectory;
@@ -56,7 +62,14 @@ public class ImageServices {
         // TODO : 기타 파일에서 확인할수 있는 메타 확인.
 
         inputImageData.setFileLocation(importedLocation);
-        inputImageData.setMetadata(inputMetadata);
+
+
+        ImageMetaData metaData = new ImageMetaData();
+        metaData.setKey("fileSize");
+        metaData.setValue(multipartFile.getSize() + "");
+        metaData.setImageData(inputImageData);
+        metadataRepository.save(metaData);
+
 
         return inputImageData;
 
@@ -77,5 +90,13 @@ public class ImageServices {
 
     public void removeImageById(ImageData reqImageDataData) {
         imageRepository.deleteById(reqImageDataData.getUuid());
+    }
+
+    public List<ImageData> findByKeyword(String keyword) {
+        return imageRepository.findByKeyword(keyword);
+    }
+
+    public List<ImageData> searchByFilter(Map<String, String> filterData){
+        return imageRepository.SearchByFilter(filterData);
     }
 }
