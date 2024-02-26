@@ -1,6 +1,6 @@
-package com.intelligent.imageTagManagement.repository;
+package com.intelligent.imagetagmanagement.repository;
 
-import com.intelligent.imageTagManagement.model.ImageData;
+import com.intelligent.imagetagmanagement.model.ImageData;
 
 import java.util.List;
 import java.util.Map;

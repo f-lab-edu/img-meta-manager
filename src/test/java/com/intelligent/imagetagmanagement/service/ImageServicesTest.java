@@ -1,8 +1,8 @@
-package com.intelligent.imageTagManagement.service;
+package com.intelligent.imagetagmanagement.service;
 
-import com.intelligent.imageTagManagement.model.ImageData;
-import com.intelligent.imageTagManagement.model.ImageMetaData;
-import com.intelligent.imageTagManagement.repository.ImageRepository;
+import com.intelligent.imagetagmanagement.model.ImageData;
+import com.intelligent.imagetagmanagement.model.ImageMetaData;
+import com.intelligent.imagetagmanagement.repository.ImageRepository;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

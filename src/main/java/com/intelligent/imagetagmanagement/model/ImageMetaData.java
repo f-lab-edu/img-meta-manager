@@ -1,4 +1,4 @@
-package com.intelligent.imageTagManagement.model;
+package com.intelligent.imagetagmanagement.model;
 
 import jakarta.persistence.*;
 import lombok.*;

@@ -1,4 +1,4 @@
-package com.intelligent.imageTagManagement.controller;
+package com.intelligent.imagetagmanagement.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

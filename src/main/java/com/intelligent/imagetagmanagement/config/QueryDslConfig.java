@@ -1,4 +1,4 @@
-package com.intelligent.imageTagManagement.config;
+package com.intelligent.imagetagmanagement.config;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;

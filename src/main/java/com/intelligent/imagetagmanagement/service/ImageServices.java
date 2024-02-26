@@ -1,9 +1,9 @@
-package com.intelligent.imageTagManagement.service;
+package com.intelligent.imagetagmanagement.service;
 
-import com.intelligent.imageTagManagement.model.ImageData;
-import com.intelligent.imageTagManagement.model.ImageMetaData;
-import com.intelligent.imageTagManagement.repository.ImageRepository;
-import com.intelligent.imageTagManagement.repository.MetadataRepository;
+import com.intelligent.imagetagmanagement.model.ImageData;
+import com.intelligent.imagetagmanagement.model.ImageMetaData;
+import com.intelligent.imagetagmanagement.repository.ImageRepository;
+import com.intelligent.imagetagmanagement.repository.MetadataRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;

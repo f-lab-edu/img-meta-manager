@@ -1,4 +1,4 @@
-package com.intelligent.imageTagManagement;
+package com.intelligent.imagetagmanagement;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

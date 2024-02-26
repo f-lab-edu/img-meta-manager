@@ -1,4 +1,4 @@
-package com.intelligent.imageTagManagement;
+package com.intelligent.imagetagmanagement;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

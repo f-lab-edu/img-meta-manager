@@ -1,7 +1,7 @@
-package com.intelligent.imageTagManagement.controller;
+package com.intelligent.imagetagmanagement.controller;
 
-import com.intelligent.imageTagManagement.model.ImageData;
-import com.intelligent.imageTagManagement.service.ImageServices;
+import com.intelligent.imagetagmanagement.model.ImageData;
+import com.intelligent.imagetagmanagement.service.ImageServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;

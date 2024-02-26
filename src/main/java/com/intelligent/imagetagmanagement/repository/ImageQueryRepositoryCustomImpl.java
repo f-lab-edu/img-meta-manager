@@ -1,6 +1,6 @@
-package com.intelligent.imageTagManagement.repository;
+package com.intelligent.imagetagmanagement.repository;
 
-import com.intelligent.imageTagManagement.model.ImageData;
+import com.intelligent.imagetagmanagement.model.ImageData;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.extern.slf4j.Slf4j;
@@ -9,8 +9,8 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.Map;
 
-import static com.intelligent.imageTagManagement.model.QImageData.imageData;
-import static com.intelligent.imageTagManagement.model.QImageMetaData.imageMetaData;
+import static com.intelligent.imagetagmanagement.model.QImageData.imageData;
+import static com.intelligent.imagetagmanagement.model.QImageMetaData.imageMetaData;
 
 @Slf4j
 @Repository
