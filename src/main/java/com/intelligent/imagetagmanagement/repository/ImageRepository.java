@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface ImageRepository extends JpaRepository<ImageData, String>, ImageQueryRepositoryCustom {
+public interface ImageRepository extends JpaRepository<ImageData, String>, ImageRepositoryCustom {
         @Query("SELECT i " +
             "FROM ImageData i join i.metadata m " +
             "WHERE i.name LIKE %:keyword% " +
