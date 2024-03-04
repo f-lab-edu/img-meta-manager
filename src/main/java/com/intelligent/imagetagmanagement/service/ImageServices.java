@@ -1,9 +1,13 @@
 package com.intelligent.imagetagmanagement.service;
 
+import com.intelligent.imagetagmanagement.exception.InvalidSearchException;
 import com.intelligent.imagetagmanagement.model.ImageData;
 import com.intelligent.imagetagmanagement.model.ImageMetaData;
+import com.intelligent.imagetagmanagement.model.SearchFilter;
+import com.intelligent.imagetagmanagement.model.WorkQueueData;
 import com.intelligent.imagetagmanagement.repository.ImageRepository;
 import com.intelligent.imagetagmanagement.repository.MetadataRepository;
+import com.intelligent.imagetagmanagement.repository.WorkQueueRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -28,6 +32,9 @@ public class ImageServices {
 
     @Autowired
     private MetadataRepository metadataRepository;
+
+    @Autowired
+    private WorkQueueRepository workQueueRepository;
 
     @Value("${upload.directory}")
     private String uploadDirectory;
@@ -64,11 +71,9 @@ public class ImageServices {
         inputImageData.setFileLocation(importedLocation);
 
 
-        ImageMetaData metaData = new ImageMetaData();
-        metaData.setKey("fileSize");
-        metaData.setValue(multipartFile.getSize() + "");
-        metaData.setImageData(inputImageData);
-        metadataRepository.save(metaData);
+        metadataRepository.save( ImageMetaData.builder().key("fileSize").numberValue(multipartFile.getSize()).type("number").imageData(inputImageData).build());
+
+        workQueueRepository.save(WorkQueueData.builder().work_status("ready").imageData(inputImageData).build());
 
 
         return inputImageData;
@@ -96,7 +101,7 @@ public class ImageServices {
         return imageRepository.findByKeyword(keyword);
     }
 
-    public List<ImageData> searchByFilter(Map<String, String> filterData){
-        return imageRepository.SearchByFilter(filterData);
+    public List<ImageData> searchByFilter(List<SearchFilter> filterData) throws InvalidSearchException {
+        return imageRepository.searchByFilter(filterData);
     }
 }

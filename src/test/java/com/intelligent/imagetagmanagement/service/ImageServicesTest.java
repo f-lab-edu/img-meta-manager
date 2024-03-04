@@ -1,7 +1,9 @@
 package com.intelligent.imagetagmanagement.service;
 
+import com.intelligent.imagetagmanagement.exception.InvalidSearchException;
 import com.intelligent.imagetagmanagement.model.ImageData;
 import com.intelligent.imagetagmanagement.model.ImageMetaData;
+import com.intelligent.imagetagmanagement.model.SearchFilter;
 import com.intelligent.imagetagmanagement.repository.ImageRepository;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.DisplayName;
@@ -28,11 +30,13 @@ public class ImageServicesTest {
         List<ImageMetaData> resultMetadatas = new ArrayList<>();
         ImageMetaData metadata = new ImageMetaData();
         metadata.setKey("extension");
-        metadata.setValue("jpeg");
+        metadata.setStringValue("jpeg");
+        metadata.setType("string");
 
         ImageMetaData metadata2 = new ImageMetaData();
         metadata2.setKey("extension");
-        metadata2.setValue("jpeg");
+        metadata2.setStringValue("jpeg");
+        metadata2.setType("string");
 
         resultMetadatas.add(metadata);
         resultMetadatas.add(metadata2);
@@ -78,11 +82,13 @@ public class ImageServicesTest {
     }
 
     @Test
-    void searchByFilter() {
-        Map<String, String > searchFilter = new HashMap<>();
-        searchFilter.put("fileSize", "150");
+    void searchByFilter() throws InvalidSearchException {
+        List<SearchFilter> searchFilter = new ArrayList<>();
+        searchFilter.add(SearchFilter.builder().key("fileSize").keyword("150").operator("and").criteria("like").build());
+//        Map<String, String > searchFilter = new HashMap<>();
+//        searchFilter.put("fileSize", "150");
 
-        imageRepository.SearchByFilter(searchFilter);
+        imageRepository.searchByFilter(searchFilter);
 
     }
 }
