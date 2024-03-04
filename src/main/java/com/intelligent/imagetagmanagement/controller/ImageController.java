@@ -1,6 +1,8 @@
 package com.intelligent.imagetagmanagement.controller;
 
+import com.intelligent.imagetagmanagement.exception.InvalidSearchException;
 import com.intelligent.imagetagmanagement.model.ImageData;
+import com.intelligent.imagetagmanagement.model.SearchFilter;
 import com.intelligent.imagetagmanagement.service.ImageServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -9,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.List;
 
 @RestController
 @RequestMapping("/image")
@@ -39,6 +42,10 @@ public class ImageController {
     public ResponseEntity<ImageData> updateImage(@RequestBody ImageData reqImageDataData) {
         return ResponseEntity.ok().body(imageServices.updateImageById(reqImageDataData));
 
+    }
+    @GetMapping("/search")
+    public ResponseEntity<List<ImageData>> searchImage(@RequestBody List<SearchFilter> searchFilters) throws InvalidSearchException {
+        return ResponseEntity.ok().body(imageServices.searchByFilter(searchFilters));
     }
 
 }
