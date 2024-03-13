@@ -35,15 +35,9 @@ public class ImageRepositoryCustomImpl implements ImageRepositoryCustom {
 
         for (SearchFilter searchFilter : filterData) {
             switch (searchFilter.getOperator().toUpperCase()) {
-                case "AND":
-                    builder.and(getExpression(searchFilter));
-                    break;
-                case "OR":
-                    builder.or(getExpression(searchFilter));
-                    break;
-                default:
-                    throw new InvalidSearchException();
-
+                case "AND" -> builder.and(getExpression(searchFilter));
+                case "OR" -> builder.or(getExpression(searchFilter));
+                default -> throw new InvalidSearchException();
             }
         }
 
