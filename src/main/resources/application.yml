@@ -1,3 +1,8 @@
+amazon:
+  sqs:
+    workflow:
+      URL: "https://sqs.ap-northeast-2.amazonaws.com/417762818207/WorkflowQueue.fifo"
+      name:  "WorkflowQueue.fifo"
 
 --- # localhost
 
@@ -22,6 +27,8 @@ spring:
 
 upload:
   directory : "/Users/handongheon/project/uploadRepository"
+
+
 
 logging:
   level:

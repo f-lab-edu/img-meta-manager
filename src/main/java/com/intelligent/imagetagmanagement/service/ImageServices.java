@@ -4,10 +4,9 @@ import com.intelligent.imagetagmanagement.exception.InvalidSearchException;
 import com.intelligent.imagetagmanagement.model.ImageData;
 import com.intelligent.imagetagmanagement.model.ImageMetaData;
 import com.intelligent.imagetagmanagement.model.SearchFilter;
-import com.intelligent.imagetagmanagement.model.WorkQueueData;
 import com.intelligent.imagetagmanagement.repository.ImageRepository;
 import com.intelligent.imagetagmanagement.repository.MetadataRepository;
-import com.intelligent.imagetagmanagement.repository.WorkQueueRepository;
+import com.intelligent.imagetagmanagement.util.SqsSendUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -33,9 +32,6 @@ public class ImageServices {
     @Autowired
     private MetadataRepository metadataRepository;
 
-    @Autowired
-    private WorkQueueRepository workQueueRepository;
-
     @Value("${upload.directory}")
     private String uploadDirectory;
 
@@ -53,7 +49,7 @@ public class ImageServices {
 
     public ImageData importImageAndUpdate(MultipartFile multipartFile, ImageData inputImageData) throws IOException {
         Path uploadFilePath = Paths.get(uploadDirectory).toAbsolutePath().normalize();
-        log.debug(" ## Upload File Path : {}", uploadFilePath.toString());
+        log.debug(" ## Upload File Path : {}", uploadFilePath);
         if (!uploadFilePath.toFile().exists()) {
             uploadFilePath.toFile().mkdirs();
         }
@@ -62,9 +58,9 @@ public class ImageServices {
         log.debug(" ## file import location : {}", importedLocation);
         File importFile = new File(importedLocation);
 
-        multipartFile.transferTo(importFile);
+        multipartFile.transferTo(importFile); // 파일명 UUID로 변경
 
-        Map<String, String> inputMetadata = new HashMap<String, String>();
+        Map<String, String> inputMetadata = new HashMap<>();
         inputMetadata.put("file-size", multipartFile.getSize() + "");
         // TODO : 기타 파일에서 확인할수 있는 메타 확인.
 
@@ -73,8 +69,7 @@ public class ImageServices {
 
         metadataRepository.save( ImageMetaData.builder().key("fileSize").numberValue(multipartFile.getSize()).type("number").imageData(inputImageData).build());
 
-        workQueueRepository.save(WorkQueueData.builder().work_status("ready").imageData(inputImageData).build());
-
+        SqsSendUtils.sendMessageToSQS(inputImageData.getUuid());
 
         return inputImageData;
 

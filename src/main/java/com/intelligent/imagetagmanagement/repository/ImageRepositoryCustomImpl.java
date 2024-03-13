@@ -55,7 +55,6 @@ public class ImageRepositoryCustomImpl implements ImageRepositoryCustom {
     }
 
     public BooleanExpression getExpression(SearchFilter searchFilter) throws InvalidSearchException {
-
         return switch (searchFilter.getValueType().toLowerCase()) {
             case "string" -> switch (searchFilter.getCriteria()) {
                 case "eq" ->
