@@ -1,5 +1,7 @@
 package com.intelligent.imagetagmanagement.repository;
 
+import com.intelligent.imagetagmanagement.command.SearchCommand;
+import com.intelligent.imagetagmanagement.command.SearchCommandFactory;
 import com.intelligent.imagetagmanagement.exception.InvalidSearchException;
 import com.intelligent.imagetagmanagement.model.ImageData;
 import com.intelligent.imagetagmanagement.model.SearchFilter;
@@ -55,51 +57,7 @@ public class ImageRepositoryCustomImpl implements ImageRepositoryCustom {
     }
 
     public BooleanExpression getExpression(SearchFilter searchFilter) throws InvalidSearchException {
-        return switch (searchFilter.getValueType().toLowerCase()) {
-            case "string" -> switch (searchFilter.getCriteria()) {
-                case "eq" ->
-                        imageMetaData.key.eq(searchFilter.getKey()).and(imageMetaData.stringValue.eq(searchFilter.getKeyword()));
-                case "ne" ->
-                        imageMetaData.key.eq(searchFilter.getKey()).and(imageMetaData.stringValue.ne(searchFilter.getKeyword()));
-                case "contains" ->
-                        imageMetaData.key.eq(searchFilter.getKey()).and(imageMetaData.stringValue.contains(searchFilter.getKeyword()));
-                case "startWith" ->
-                        imageMetaData.key.eq(searchFilter.getKey()).and(imageMetaData.stringValue.startsWith(searchFilter.getKeyword()));
-                case "endWith" ->
-                        imageMetaData.key.eq(searchFilter.getKey()).and(imageMetaData.stringValue.endsWith(searchFilter.getKeyword()));
-                case "like" ->
-                        imageMetaData.key.eq(searchFilter.getKey()).and(imageMetaData.stringValue.like(searchFilter.getKeyword()));
-
-                default -> throw new InvalidSearchException();
-            };
-            case "number" -> switch (searchFilter.getCriteria()) {
-                case "eq" ->
-                        imageMetaData.key.eq(searchFilter.getKey()).and(imageMetaData.numberValue.eq(searchFilter.getValueToLong()));
-                case "ne" ->
-                        imageMetaData.key.eq(searchFilter.getKey()).and(imageMetaData.numberValue.ne(searchFilter.getValueToLong()));
-                case "gt" ->
-                        imageMetaData.key.eq(searchFilter.getKey()).and(imageMetaData.numberValue.gt(searchFilter.getValueToLong()));
-                case "lt" ->
-                        imageMetaData.key.eq(searchFilter.getKey()).and(imageMetaData.numberValue.lt(searchFilter.getValueToLong()));
-                case "goe" ->
-                        imageMetaData.key.eq(searchFilter.getKey()).and(imageMetaData.numberValue.goe(searchFilter.getValueToLong()));
-                case "loe" ->
-                        imageMetaData.key.eq(searchFilter.getKey()).and(imageMetaData.numberValue.loe(searchFilter.getValueToLong()));
-
-                default -> throw new InvalidSearchException();
-            };
-            case "date" -> switch (searchFilter.getCriteria()) {
-                case "eq" ->
-                        imageMetaData.key.eq(searchFilter.getKey()).and(imageMetaData.dateValue.eq(searchFilter.getValueToDate()));
-                case "before" ->
-                        imageMetaData.key.eq(searchFilter.getKey()).and(imageMetaData.dateValue.before(searchFilter.getValueToDate()));
-                case "after" ->
-                        imageMetaData.key.eq(searchFilter.getKey()).and(imageMetaData.dateValue.after(searchFilter.getValueToDate()));
-
-                default -> throw new InvalidSearchException();
-            };
-            default -> throw new InvalidSearchException();
-        };
-
+        SearchCommand searchCommand = SearchCommandFactory.getCommand(searchFilter);
+        return searchCommand.execute(searchFilter);
     }
 }
