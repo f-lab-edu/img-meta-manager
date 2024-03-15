@@ -88,11 +88,5 @@ public class ImageServices {
         imageRepository.deleteById(reqImageDataData.getUuid());
     }
 
-    public List<ImageData> findByKeyword(String keyword) {
-        return imageRepository.findByKeyword(keyword);
-    }
 
-    public List<ImageData> searchByFilter(List<SearchFilter> filterData) throws InvalidSearchException {
-        return imageRepository.searchByFilter(filterData);
-    }
 }
