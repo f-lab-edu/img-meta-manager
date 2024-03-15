@@ -19,9 +19,7 @@ public class ImageMetadataExtractorUtils {
         Map<String, String> metadataMap = new HashMap<>();
 
         Metadata metadata = JpegMetadataReader.readMetadata(file);
-//        log.info("metdata: {}", metadata);
         for (Directory directory : metadata.getDirectories()) {
-//            log.info("directory: {}", directory);
             for (Tag tag : directory.getTags()) {
                 metadataMap.put("EXIF, " + directory.getName() + ", " + tag.getTagName(), tag.getDescription());
             }
