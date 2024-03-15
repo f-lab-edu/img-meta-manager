@@ -11,6 +11,7 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import static com.intelligent.imagetagmanagement.model.QImageData.*;
@@ -48,6 +49,26 @@ public class ImageRepositoryCustomImpl implements ImageRepositoryCustom {
                 .where(builder)
                 .fetch();
 
+    }
+
+    @Override
+    public long getTotalUploadCount() {
+        Long totalUploadCount = jpaQueryFactory
+                .select(imageData.count())
+                .from(imageData)
+                .fetchOne();
+        return totalUploadCount != null ? totalUploadCount : 0L;
+    }
+
+    @Override
+    public long getTodayUploadCount() {
+
+        Long todayUploadCount = jpaQueryFactory
+                .select(imageData.count())
+                .from(imageData)
+                .where(imageData.uploadDate.after(LocalDate.now().atStartOfDay()))
+                .fetchOne();
+        return todayUploadCount != null ? todayUploadCount : 0L;
     }
 
     public BooleanExpression getExpression(SearchFilter searchFilter) throws InvalidSearchException {

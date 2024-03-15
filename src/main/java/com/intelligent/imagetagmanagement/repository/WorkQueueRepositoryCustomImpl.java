@@ -5,6 +5,7 @@ import com.querydsl.core.BooleanBuilder;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.extern.slf4j.Slf4j;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import static com.intelligent.imagetagmanagement.model.QWorkQueueData.workQueueData;
@@ -30,6 +31,47 @@ public class WorkQueueRepositoryCustomImpl implements WorkQueueRepositoryCustom 
                 .from(workQueueData)
                 .where(builder)
                 .fetch();
+    }
 
+    @Override
+    public long getTotalFailedWorkflowCount() {
+        Long failedWorkflowCount = jpaQueryFactory
+                .select(workQueueData.count())
+                .from(workQueueData)
+                .where(workQueueData.work_status.eq("failed"))
+                .fetchOne();
+
+        return failedWorkflowCount != null ? failedWorkflowCount : 0L;
+    }
+
+    @Override
+    public long getTotalSuccessWorkflowCount() {
+        Long completedWorkflowCount = jpaQueryFactory
+                .select(workQueueData.count())
+                .from(workQueueData)
+                .where(workQueueData.work_status.eq("completed"))
+                .fetchOne();
+
+        return completedWorkflowCount != null ? completedWorkflowCount : 0L;
+    }
+
+    @Override
+    public long getTodayFailedWorkflowCount() {
+        Long failedWorkflowCount = jpaQueryFactory
+                .select(workQueueData.count())
+                .from(workQueueData)
+                .where(workQueueData.work_status.eq("failed").and(workQueueData.created_date.after(LocalDate.now().atStartOfDay())))
+                .fetchOne();
+        return failedWorkflowCount != null ? failedWorkflowCount : 0L;
+    }
+
+    @Override
+    public long getTodaySuccessWorkflowCount() {
+        Long completedWorkflowCount = jpaQueryFactory
+                .select(workQueueData.count())
+                .from(workQueueData)
+                .where(workQueueData.work_status.eq("completed").and(workQueueData.created_date.after(LocalDate.now().atStartOfDay())))
+                .fetchOne();
+        return completedWorkflowCount != null ? completedWorkflowCount : 0L;
     }
 }

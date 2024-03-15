@@ -3,7 +3,9 @@ package com.intelligent.imagetagmanagement.model;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.UuidGenerator;
+import org.springframework.data.annotation.CreatedDate;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
@@ -27,9 +29,9 @@ public class ImageData {
     @Column(nullable = true)
     private String fileLocation;
 
-//    @CreatedDate
-//    @Column(nullable = false, updatable = false)
-//    private LocalDateTime uploadDate;
+    @CreatedDate
+    @Column(nullable = false, updatable = false)
+    private LocalDateTime uploadDate;
 
     @OneToMany(mappedBy = "imageData", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ImageMetaData> metadata;

@@ -9,5 +9,7 @@ import java.util.List;
 public interface ImageRepositoryCustom {
 
     List<ImageData> searchByFilter(List<SearchFilter> filterData) throws InvalidSearchException;
+    long getTotalUploadCount();
+    long getTodayUploadCount();
 
 }
