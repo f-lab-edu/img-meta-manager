@@ -60,10 +60,6 @@ public class ImageServices {
 
         multipartFile.transferTo(importFile); // 파일명 UUID로 변경
 
-        Map<String, String> inputMetadata = new HashMap<>();
-        inputMetadata.put("file-size", multipartFile.getSize() + "");
-        // TODO : 기타 파일에서 확인할수 있는 메타 확인.
-
         inputImageData.setFileLocation(importedLocation);
 
 
