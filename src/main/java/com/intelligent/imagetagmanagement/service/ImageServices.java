@@ -1,9 +1,7 @@
 package com.intelligent.imagetagmanagement.service;
 
-import com.intelligent.imagetagmanagement.exception.InvalidSearchException;
 import com.intelligent.imagetagmanagement.model.ImageData;
 import com.intelligent.imagetagmanagement.model.ImageMetaData;
-import com.intelligent.imagetagmanagement.model.SearchFilter;
 import com.intelligent.imagetagmanagement.repository.ImageRepository;
 import com.intelligent.imagetagmanagement.repository.MetadataRepository;
 import com.intelligent.imagetagmanagement.util.SqsSendUtils;
@@ -17,9 +15,6 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 @Service
