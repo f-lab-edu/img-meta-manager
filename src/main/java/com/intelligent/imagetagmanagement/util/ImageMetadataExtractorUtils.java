@@ -31,9 +31,4 @@ public class ImageMetadataExtractorUtils {
         return metadataMap;
     }
 
-    public static void main(String[] args) throws JpegProcessingException, IOException {
-        ImageMetadataExtractorUtils imageMetadataExtractorUtils = new ImageMetadataExtractorUtils();
-        File file = new File("/Users/handongheon/Documents/20220424_194625.jpg");
-        imageMetadataExtractorUtils.extractFileExifData(file);
-    }
 }
