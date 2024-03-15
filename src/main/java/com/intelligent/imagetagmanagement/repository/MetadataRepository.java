@@ -5,6 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface MetadataRepository extends JpaRepository<ImageMetaData, String>, ImageRepositoryCustom {
+public interface MetadataRepository extends JpaRepository<ImageMetaData, String>, MetadataRepositoryCustom {
 
 }
