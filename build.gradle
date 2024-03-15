@@ -50,6 +50,10 @@ dependencies {
     implementation 'io.awspring.cloud:spring-cloud-aws-starter-sqs'
 
 
+    // image exif extract
+    implementation 'com.drewnoakes:metadata-extractor:2.19.0'
+
+
 }
 
 // QueryDSL
