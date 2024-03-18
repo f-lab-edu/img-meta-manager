@@ -1,6 +1,5 @@
 package com.intelligent.imagetagmanagement.repository;
 
-import com.intelligent.imagetagmanagement.command.SearchCommand;
 import com.intelligent.imagetagmanagement.command.SearchCommandFactory;
 import com.intelligent.imagetagmanagement.exception.InvalidSearchException;
 import com.intelligent.imagetagmanagement.model.ImageData;
@@ -14,8 +13,8 @@ import org.springframework.stereotype.Repository;
 import java.time.LocalDate;
 import java.util.List;
 
-import static com.intelligent.imagetagmanagement.model.QImageData.*;
-import static com.intelligent.imagetagmanagement.model.QImageMetaData.*;
+import static com.intelligent.imagetagmanagement.model.QImageData.imageData;
+import static com.intelligent.imagetagmanagement.model.QImageMetaData.imageMetaData;
 
 @Slf4j
 @Repository
@@ -72,7 +71,6 @@ public class ImageRepositoryCustomImpl implements ImageRepositoryCustom {
     }
 
     public BooleanExpression getExpression(SearchFilter searchFilter) throws InvalidSearchException {
-        SearchCommand searchCommand = SearchCommandFactory.getCommand(searchFilter);
-        return searchCommand.execute(searchFilter);
+        return SearchCommandFactory.getCommand(searchFilter).apply(searchFilter);
     }
 }
