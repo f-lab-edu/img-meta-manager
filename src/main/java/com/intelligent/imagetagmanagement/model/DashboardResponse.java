@@ -7,7 +7,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class DashBoardData {
+public class DashboardResponse {
 
 
     private long totalSuccessfulWorkflowCount;

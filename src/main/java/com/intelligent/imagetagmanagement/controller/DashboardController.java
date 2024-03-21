@@ -1,6 +1,6 @@
 package com.intelligent.imagetagmanagement.controller;
 
-import com.intelligent.imagetagmanagement.model.DashBoardData;
+import com.intelligent.imagetagmanagement.model.DashboardResponse;
 import com.intelligent.imagetagmanagement.service.DashboardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -15,10 +15,10 @@ public class DashboardController {
     DashboardService dashboardService;
 
     @GetMapping
-    public ResponseEntity<DashBoardData> getAllImages() {
+    public ResponseEntity<DashboardResponse> getAllImages() {
         return ResponseEntity
                 .ok()
-                .body(DashBoardData
+                .body(DashboardResponse
                         .builder()
                         .todayImageCount(dashboardService.getTodayUploadCount())
                         .totalSuccessfulWorkflowCount(dashboardService.getTotalSuccessWorkflowCount())
