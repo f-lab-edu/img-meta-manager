@@ -1,9 +1,9 @@
 amazon:
   sqs:
     workflow:
-      URL: "https://sqs.ap-northeast-2.amazonaws.com/417762818207/WorkflowQueue.fifo"
-      name:  "WorkflowQueue.fifo"
-
+      url: "https://sqs.ap-northeast-2.amazonaws.com/417762818207/WorkflowQueue"
+      name:  "WorkflowQueue"
+# fifo는 분당 처리량이 낮다. 순서를 지켜야 할때만
 --- # localhost
 
 spring:
