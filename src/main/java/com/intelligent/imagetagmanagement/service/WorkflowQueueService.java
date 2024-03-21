@@ -1,21 +1,17 @@
 package com.intelligent.imagetagmanagement.service;
 
+import com.drew.imaging.jpeg.JpegProcessingException;
 import com.intelligent.imagetagmanagement.model.ImageData;
-import com.intelligent.imagetagmanagement.model.ImageMetaData;
 import com.intelligent.imagetagmanagement.model.WorkQueueData;
 import com.intelligent.imagetagmanagement.repository.ImageRepository;
-import com.intelligent.imagetagmanagement.repository.MetadataRepository;
-import com.intelligent.imagetagmanagement.repository.WorkQueueRepository;
 import com.intelligent.imagetagmanagement.util.ImageMetadataExtractorUtils;
-import com.intelligent.imagetagmanagement.util.SqsSendUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
-import java.util.List;
+import java.io.IOException;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
@@ -23,16 +19,19 @@ import java.util.Optional;
 @Slf4j
 public class WorkflowQueueService {
 
-    @Autowired
-    private ImageRepository imageRepository;
+    private final ImageRepository imageRepository;
+
+    private final SqsSendService sqsSendService;
+    private final ImageServices imageServices;
 
     @Autowired
-    private MetadataRepository metadataRepository;
+    public WorkflowQueueService(ImageRepository imageRepository, SqsSendService sqsSendService, ImageServices imageServices) {
+        this.imageRepository = imageRepository;
+        this.sqsSendService = sqsSendService;
+        this.imageServices = imageServices;
+    }
 
-    @Autowired
-    private WorkQueueRepository workQueueRepository;
-
-    public void doWorkflow(String uuid) {
+    public void doWorkflow(String uuid) throws JpegProcessingException {
         log.debug("workflow uuid is : {}", uuid);
         Optional<ImageData> imageDataOptional = imageRepository.findById(uuid);
         ImageData imageData;
@@ -47,20 +46,16 @@ public class WorkflowQueueService {
                 throw new FileNotFoundException("file not found");
             }
 
-            List<ImageMetaData> inputImageMetadata = new ArrayList<>();
-            ImageMetadataExtractorUtils.extractFileExifData(file).forEach((metaKey, metaValue) -> {
-                inputImageMetadata.add(ImageMetaData.builder().key(metaKey).stringValue(metaValue).imageData(imageData).build());
-            });
-
-            metadataRepository.saveAll(inputImageMetadata);
+            imageServices.saveAllMetadataListMap(ImageMetadataExtractorUtils.extractFileExifData(file), imageData);
 
             WorkQueueData.builder().imageData(imageData).work_status("completed").build();
 
-        } catch (Exception e) {
+        } catch (IOException e) {
             WorkQueueData.builder().imageData(imageData).work_status("failed").build();
 
-            SqsSendUtils.sendMessageToSQS(uuid);
+            sqsSendService.sendMessageToSQS(uuid);
         }
+
 
     }
 }
