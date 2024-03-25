@@ -65,6 +65,10 @@ sourceSets {
     }
 }
 
+bootRun {
+    systemProperty 'spring.profiles.active', 'local'
+}
+
 
 test {
     useJUnitPlatform()
