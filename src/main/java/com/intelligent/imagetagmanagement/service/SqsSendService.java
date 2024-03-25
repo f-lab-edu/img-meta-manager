@@ -1,5 +1,6 @@
 package com.intelligent.imagetagmanagement.service;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -8,6 +9,7 @@ import software.amazon.awssdk.services.sqs.model.SendMessageRequest;
 
 
 @Service
+@Slf4j
 public class SqsSendService { // Service
 
     @Autowired
@@ -18,24 +20,24 @@ public class SqsSendService { // Service
     private final SqsClient sqsClient;
 
     @Value("${amazon.sqs.workflow.url}")
-    private static String QUEUE_URL;
+    private String QUEUE_URL;
 
     @Value("${amazon.sqs.workflow.name}")
-    private static String QUEUE_NAME;
+    private String QUEUE_NAME;
 
 
     public void sendMessageToSQS(String message) {
-        sendMessageToSqsUrl(message, QUEUE_URL, QUEUE_NAME);
+        log.info("message : {}", message);
+        log.info("queue url : {}", QUEUE_URL);
+        sendMessageToSqsUrl(message, QUEUE_URL);
 
     }
 
-    public void sendMessageToSqsUrl(String message, String queue_url, String queue_name) {
-            sqsClient.sendMessage(SendMessageRequest.builder()
-                    .queueUrl(queue_url)
-                    .messageGroupId(queue_name)
-                    .messageDeduplicationId(queue_name)
-                    .messageBody(message)
-                    .build());
+    public void sendMessageToSqsUrl(String message, String queue_url) {
+        sqsClient.sendMessage(SendMessageRequest.builder()
+                .queueUrl(queue_url)
+                .messageBody(message)
+                .build());
     }
 
 }
