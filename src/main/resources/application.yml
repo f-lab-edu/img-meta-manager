@@ -26,7 +26,7 @@ spring:
       on-profile: local
 
 upload:
-  directory : "/Users/handongheon/project/uploadRepository"
+  directory : "/Users/handongheon/project/uploadRepository/"
 
 
 
@@ -57,7 +57,7 @@ spring:
       on-profile: dev
 
 upload:
-  directory : "/Users/handongheon/project/uploadRepository"
+  directory : "/Users/handongheon/project/uploadRepository/"
 
 logging:
   level:
