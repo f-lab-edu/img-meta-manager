@@ -6,7 +6,7 @@ GET http://localhost:8080/imageData/{{uuid}}
 
 
 ###
-POST http://localhost:8080/imageData
+POST http://localhost:8080/image
 Content-Type: multipart/form-data; boundary=Boundary
 
 --Boundary
@@ -16,7 +16,7 @@ Content-Type: imageData/jpeg
 @./example.jpg
 
 --Boundary
-Content-Disposition: form-data; name="imageDataBody"
+Content-Disposition: form-data; name="imageBody"
 Content-Type: application/json
 
 {
@@ -31,3 +31,25 @@ Content-Type: application/json
 }
 
 --Boundary
+
+
+
+###
+POST http://localhost:8080/image
+Content-Type: multipart/form-data; boundary=BOUNDARY
+
+--BOUNDARY
+Content-Disposition: form-data; name="file"; filename="20220424_194625.jpg"
+Content-Type: image/jpeg
+
+< /Users/handongheon/Documents/20220424_194625.jpg
+--BOUNDARY
+Content-Disposition: form-data; name="imageBody"
+Content-Type: application/json
+
+{
+"imageBody": {
+  "name": "example-imageData",
+  "fileName": "example.jpg"
+  }
+}
