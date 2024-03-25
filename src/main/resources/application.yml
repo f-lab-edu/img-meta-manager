@@ -8,7 +8,7 @@ amazon:
 
 spring:
   datasource:
-    url: "jdbc:postgresql://localhost:5432/imageTagManagementDatabase"
+    url: "jdbc:postgresql://nice_stonebraker:5432/imageTagManagementDatabase"
     username: "appuser"
     password:
 
@@ -39,7 +39,7 @@ logging:
 
 spring:
   datasource:
-    url: "jdbc:postgresql://database-1-instance-1.cqdlgmsa0ydf.ap-northeast-2.rds.amazonaws.com:5432/"
+    url: "jdbc:postgresql://database-1-instance-1.cqdlgmsa0ydf.ap-northeast-2.rds.amazonaws.com:5432/imageTagManagementDatabase"
     username: "appuser"
     password:
 
