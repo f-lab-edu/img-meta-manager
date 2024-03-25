@@ -9,6 +9,10 @@ spring:
     url: "jdbc:postgresql://database-1-instance-1.cqdlgmsa0ydf.ap-northeast-2.rds.amazonaws.com:5432/imagetagmanagementdatabase"
     username: "appuser"
     password: "appuser"
+
+
+upload:
+  directory : "/data/teamcity_agent/conf/uploadRepository/"
 # fifo는 분당 처리량이 낮다. 순서를 지켜야 할때만
 --- # localhost
 
