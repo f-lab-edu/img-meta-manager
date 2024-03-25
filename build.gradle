@@ -65,9 +65,10 @@ sourceSets {
     }
 }
 
-//bootRun {
-//    systemProperty 'spring.profiles.active', 'local'
-//}
+bootRun {
+    systemProperty 'spring.profiles.active', 'dev'
+}
+
 
 
 test {
