@@ -12,7 +12,7 @@ import java.util.function.Function;
 import static com.intelligent.imagetagmanagement.model.QImageMetaData.imageMetaData;
 
 @Component
-public class SearchCommandFactory { // factory 아님
+public class SearchCommand { // factory 아님
 
     private  final Map<String, Map<String, Function<SearchFilter, BooleanExpression>>> functionalMap = new HashMap<>(Map.of(
             "string", Map.of(
