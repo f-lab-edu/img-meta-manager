@@ -31,7 +31,7 @@ public class WorkflowQueueService {
         this.imageServices = imageServices;
     }
 
-    public void doWorkflow(String uuid) throws JpegProcessingException {
+    public void doWorkflow(String uuid) throws JpegProcessingException, IOException {
         log.debug("workflow uuid is : {}", uuid);
         Optional<ImageData> imageDataOptional = imageRepository.findById(uuid);
         ImageData imageData;
@@ -54,6 +54,7 @@ public class WorkflowQueueService {
             WorkQueueData.builder().imageData(imageData).work_status("failed").build();
 
             sqsSendService.sendMessageToSQS(uuid);
+
         }
 
 
