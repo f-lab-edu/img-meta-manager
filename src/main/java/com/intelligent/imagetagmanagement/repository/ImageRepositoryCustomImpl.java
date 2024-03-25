@@ -1,6 +1,6 @@
 package com.intelligent.imagetagmanagement.repository;
 
-import com.intelligent.imagetagmanagement.command.SearchCommandFactory;
+import com.intelligent.imagetagmanagement.command.SearchCommand;
 import com.intelligent.imagetagmanagement.exception.InvalidSearchException;
 import com.intelligent.imagetagmanagement.model.ImageData;
 import com.intelligent.imagetagmanagement.model.SearchFilter;
@@ -8,6 +8,7 @@ import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
@@ -21,9 +22,12 @@ import static com.intelligent.imagetagmanagement.model.QImageMetaData.imageMetaD
 public class ImageRepositoryCustomImpl implements ImageRepositoryCustom {
 
     private final JPAQueryFactory jpaQueryFactory;
+    private final SearchCommand searchCommand;
 
-    public ImageRepositoryCustomImpl(JPAQueryFactory jpaQueryFactory) {
+    @Autowired
+    public ImageRepositoryCustomImpl(JPAQueryFactory jpaQueryFactory, SearchCommand searchCommand) {
         this.jpaQueryFactory = jpaQueryFactory;
+        this.searchCommand = searchCommand;
     }
 
     @Override
@@ -71,6 +75,6 @@ public class ImageRepositoryCustomImpl implements ImageRepositoryCustom {
     }
 
     public BooleanExpression getExpression(SearchFilter searchFilter) throws InvalidSearchException {
-        return SearchCommandFactory.getCommand(searchFilter).apply(searchFilter);
+        return searchCommand.getCommand(searchFilter).apply(searchFilter);
     }
 }
