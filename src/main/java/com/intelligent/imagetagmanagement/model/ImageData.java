@@ -3,7 +3,6 @@ package com.intelligent.imagetagmanagement.model;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.UuidGenerator;
-import org.springframework.data.annotation.CreatedDate;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -15,6 +14,11 @@ import java.util.List;
 @Builder
 @Entity
 public class ImageData {
+
+    @PrePersist
+    public void prePersist() {
+        this.uploadDate = LocalDateTime.now();
+    }
 
     @Id
     @UuidGenerator
@@ -29,7 +33,6 @@ public class ImageData {
     @Column(nullable = true)
     private String fileLocation;
 
-    @CreatedDate
     @Column(nullable = false, updatable = false)
     private LocalDateTime uploadDate;
 
