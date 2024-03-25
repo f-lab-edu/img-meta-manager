@@ -3,6 +3,7 @@ package com.intelligent.imagetagmanagement.command;
 import com.intelligent.imagetagmanagement.exception.InvalidSearchException;
 import com.intelligent.imagetagmanagement.model.SearchFilter;
 import com.querydsl.core.types.dsl.BooleanExpression;
+import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -10,9 +11,10 @@ import java.util.function.Function;
 
 import static com.intelligent.imagetagmanagement.model.QImageMetaData.imageMetaData;
 
-public class SearchCommandFactory { // function map lambda
+@Component
+public class SearchCommandFactory { // factory 아님
 
-    private static final Map<String, Map<String, Function<SearchFilter, BooleanExpression>>> functionalMap = new HashMap<>(Map.of(
+    private  final Map<String, Map<String, Function<SearchFilter, BooleanExpression>>> functionalMap = new HashMap<>(Map.of(
             "string", Map.of(
                     "eq", (searchFilter) -> imageMetaData.key.eq(searchFilter.getKey()).and(imageMetaData.stringValue.eq(searchFilter.getKeyword())),
                     "ne", (searchFilter) -> imageMetaData.key.eq(searchFilter.getKey()).and(imageMetaData.stringValue.ne(searchFilter.getKeyword())),
@@ -32,16 +34,17 @@ public class SearchCommandFactory { // function map lambda
             "date", Map.of(
                     "eq", (searchFilter) -> imageMetaData.key.eq(searchFilter.getKey()).and(imageMetaData.dateValue.eq(searchFilter.getValueToDate())),
                     "after", (searchFilter) -> imageMetaData.key.eq(searchFilter.getKey()).and(imageMetaData.dateValue.after(searchFilter.getValueToDate())),
-                    "before", (searchFilter) -> imageMetaData.key.eq(searchFilter.getKey()).and(imageMetaData.dateValue.before(searchFilter.getValueToDate()))
+                    "before", (searchFilter) -> imageMetaData.key.eq(searchFilter.getKey()).and(imageMetaData.dateValue.before(searchFilter.getValueToDate())),
+                    "ne", (searchFilter) -> imageMetaData.key.eq(searchFilter.getKey()).and(imageMetaData.dateValue.ne(searchFilter.getValueToDate()))
             )
     ));
 
-    public static Function<SearchFilter, BooleanExpression> getCommand(SearchFilter searchFilter) throws InvalidSearchException {
+    public  Function<SearchFilter, BooleanExpression> getCommand(SearchFilter searchFilter) throws InvalidSearchException {
         validateSearchFilter(searchFilter);
         return functionalMap.get(searchFilter.getValueType().toLowerCase()).get(searchFilter.getCriteria());
     }
 
-    private static void validateSearchFilter(SearchFilter searchFilter) throws InvalidSearchException {
+    private  void validateSearchFilter(SearchFilter searchFilter) throws InvalidSearchException {
         String valueType = searchFilter.getValueType().toLowerCase();
         String criteria = searchFilter.getCriteria();
         if (!functionalMap.containsKey(valueType)) {
