@@ -10,8 +10,8 @@ COPY aws root/.aws
 
 WORKDIR $APP_HOME
 
-COPY $JAR_FILE_PATH apps.jar
+COPY $JAR_FILE_PATH app.jar
 
 EXPOSE 8080
 
-ENTRYPOINT ["java", "-jar", "apps.jar"]
+ENTRYPOINT ["java", "-jar", "app.jar"]
