@@ -6,8 +6,6 @@ ENV SPRING_PROFILES_ACTIVE=locals
 
 ARG JAR_FILE_PATH=build/libs/ImageTagManagement-0.0.1-SNAPSHOT.jar
 
-COPY aws root/.aws
-
 WORKDIR $APP_HOME
 
 COPY $JAR_FILE_PATH app.jar
